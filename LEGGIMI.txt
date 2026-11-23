@@ -1,0 +1,71 @@
+HNK LST - SERVER MATCHMAKING v2.0 (IKEMEN GO)
+=============================================
+
+SCOPO
+Questo ZIP contiene il backend di matchmaking corrispondente ai comandi visibili
+nel tuo launcher HNK LST: CERCA PARTITA, CERCA UTENTE SPECIFICO e ANNULLA RICERCA.
+Il launcher originale NON e' incluso, ne' e' stato modificato.
+
+ATTENZIONE ALLA COMPATIBILITA'
+L'API di questo server e' descritta sotto. Non avendo il codice sorgente del
+launcher, NON POSSIAMO garantire che il launcher attuale utilizzi gia' questi
+stessi endpoint/campi JSON. Per una compatibilita' esatta serve il suo sorgente.
+
+FUNZIONI
+- Username temporanei univoci di 3-20 caratteri; nessuna registrazione.
+- Ricerca casuale 1vs1 tra giocatori con stessa versione del gioco.
+- Ricerca di amico solo se entrambi inseriscono il nome dell'altro.
+- Gestione stato, cancellazione, timeout e disconnessione avversario.
+- Assegnazione host/guest e restituzione IP host al guest.
+- API HTTPS su Render (tramite proxy di Render).
+- Nessun componente esterno Python da installare.
+
+PROVA LOCALE
+Installa Python 3.10+, estrai ZIP, avvia AVVIA_SERVER_WINDOWS.bat.
+Apri http://localhost:8080 in due finestre private o su due PC.
+Indica due username diversi. CERCA PARTITA casuale su entrambi.
+Per cercare un amico: A cerca B, B cerca A (nomi esatti, senza differenze maiuscole).
+
+PUBBLICAZIONE SU RENDER
+1) Se possiedi gia' il servizio https://hnk-lst-matchmaker.onrender.com,
+   sostituisci il CODICE DEL SUO REPOSITORY con i file di questa cartella (backup
+   prima di sostituire). Non creare un secondo servizio se vuoi mantenere l'URL.
+2) Il servizio Render deve essere Web Service Python 3.10+.
+3) Start Command: python server.py
+4) Environment: TRUST_PROXY=1
+5) Il server ascolta 0.0.0.0 e la variabile PORT assegnata da Render.
+6) Test: https://hnk-lst-matchmaker.onrender.com/api/health (solo dopo il deploy).
+7) Se non hai ancora il servizio, puoi usare render.yaml sul tuo repository
+   GitHub per una nuova installazione; il nome e l'URL effettivi dipendono da Render.
+
+API RICHIESTE DAL LAUNCHER
+- POST /api/join  Content-Type: application/json
+  Ricerca casuale: {"username":"Kenshiro89","game":"HNK LST"}
+  Amico: {"username":"Kenshiro89","friend":"Raoh80","game":"HNK LST"}
+  Opcionali: "host_address":"1.2.3.4", "can_host":true
+  Restituisce: {"ok":true,"token":"...","status":"waiting"}
+- GET /api/status?token=...  (ripetere ogni 2 secondi)
+  waiting, matched, opponent_left, expired
+  matched include role=host|guest, host_address, opponent, match_id, port.
+- POST /api/leave con {"token":"..."} per annullare/uscire.
+- GET /api/health per test di salute.
+- Aliases: POST /api/search = /api/join; POST /api/cancel = /api/leave.
+
+COME AVVIARE IL GIOCO
+Il server NON lancia programmi sui PC remoti e NON ospita i combattimenti.
+Il launcher deve leggere i JSON e avviare IKEMEN GO in modalita' netplay.
+Verifica supporto -ip della specifica build di IKEMEN GO che utilizzi.
+Per gli host, la documentazione IKEMEN GO elenca -ip con valore vuoto.
+Per i guest, -ip <indirizzo_host>. Non confondere match trovato con partita connessa.
+Nel pacchetto non e' inclusa alcuna modifica a IKEMEN GO o al launcher.
+
+NOTA CONNESSIONI
+- L'IP rilevato dall'HTTP puo' non essere raggiungibile a causa di firewall,
+  NAT, CGNAT, reti locali o proxy. Il matchmaking NON garantisce la connessione.
+- L'host deve essere raggiungibile sulla porta TCP 7500 (e UDP 7500 con
+  rollback, secondo versione/configurazione IKEMEN GO).
+- VPN, relay o NAT traversal vanno progettati separatamente.
+- Matchmaking in RAM: su riavvio o autosuspend di Render si perdono sessioni.
+- Eseguire una sola istanza server: questo prototipo non ha database condiviso.
+- Username non autenticati, nessun sistema anti-abuso/anti-cheat di produzione.
+- Questo progetto NON configura il servizio Render esistente automaticamente.

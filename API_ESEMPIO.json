@@ -1,0 +1,11 @@
+{
+  "endpoint_ricerca": "POST /api/join",
+  "body_casuale": {"username": "Kenshiro89", "game": "HNK LST"},
+  "body_amico": {"username": "Kenshiro89", "friend": "Raoh80", "game": "HNK LST"},
+  "risposta_ricerca": {"ok": true, "token": "generato_dal_server", "status": "waiting"},
+  "endpoint_stato": "GET /api/status?token=generato_dal_server",
+  "risposta_abbinato": {"ok": true, "status": "matched", "role": "guest", "opponent": "Raoh80", "host_address": "IP_HOST", "port": 7500},
+  "endpoint_annulla": "POST /api/leave",
+  "body_annulla": {"token": "generato_dal_server"},
+  "endpoint_health": "GET /api/health"
+}

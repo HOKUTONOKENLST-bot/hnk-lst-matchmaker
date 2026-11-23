@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: hnk-lst-matchmaker
+    runtime: python
+    plan: free
+    buildCommand: "echo 'No dependencies'"
+    startCommand: "python server.py"
+    healthCheckPath: /api/health
+    envVars:
+      - key: TRUST_PROXY
+        value: "1"

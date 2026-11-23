@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HNK LST • Matchmaking</title>
+<style>:root{color-scheme:dark}body{font:16px system-ui,Segoe UI,sans-serif;background:#12161c;color:#e4e9ef;max-width:680px;margin:6vh auto;padding:0 20px}h1{font-size:27px}p{color:#a9b3c1}label{display:block;margin:16px 0 7px}input{width:100%;padding:12px;box-sizing:border-box;background:#212833;border:1px solid #536174;border-radius:5px;color:white;font-size:16px}button{border:0;border-radius:5px;background:#15944d;color:white;padding:13px 19px;font-weight:700;margin:16px 6px 0 0;cursor:pointer}button:disabled{opacity:.45;cursor:default}#stop{background:#455161}pre{background:#1d2530;border:1px solid #394654;border-radius:7px;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere}small{color:#a9b3c1}</style></head>
+<body><h1>HNK LST – Server matchmaking</h1><p>Pagina di collaudo. Il gioco continuerà a utilizzare il launcher che hai già.</p>
+<label>Il tuo username</label><input id="name" maxlength="20" placeholder="Es. Kenshiro89" autocomplete="off">
+<label>Username amico (lascia vuoto per ricerca casuale)</label><input id="friend" maxlength="20" placeholder="Es. Raoh80" autocomplete="off">
+<label>Versione gioco</label><input id="game" value="HNK LST" autocomplete="off">
+<button id="search">CERCA PARTITA</button><button id="stop" disabled>ANNULLA RICERCA</button>
+<pre id="out">Pronto per cercare una partita.</pre><small>Testa con due finestre del browser e username diversi. Per una partita reale, il launcher deve usare le API di questo server e avviare IKEMEN GO con la connessione corretta.</small>
+<script><script src="/app.js"></script></body></html>
